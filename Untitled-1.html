@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        
+        body {
+            direction: rtl;
+            background: #ccc;
+        }
+
+        #textura {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            position: relative;
+        }
+
+        #screen {
+            max-width: 600px;
+            height: 645px;
+            background: white;
+            margin: 20px;
+            padding: 10px;
+            border-radius: 2em;
+            box-shadow: 10px 10px 18px #9c9c9c;
+
+        }
+
+        #screengame {
+            background: black;
+            padding: 20px;
+            height: 465px;
+            border-radius: 2em;
+        }
+
+        #lion {
+            position: absolute;
+            top: 0px;
+            width: 100%;
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+
+    <audio id="playlion">
+            <source src="lion.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="container">
+        <div class="row" id="screen">
+            
+               <h1>לחצו כמה שיותר מהר על הצורות</h1>
+
+                <h3>מהירות: <span id="result">...</span></h3> <h3>קליקים: <span id="resultclick">...</span></h3>
+            <div id="screengame">
+                <div id="textura"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lion">
+        <img id="imglion" src="lion.jpg" style="width: 100%">
+    </div>
+
+    <script>
+        var timestart = new Date().getTime();
+
+        function changeColor(){
+
+        var letters = "0123456789ABCDEF".split('');
+        var color = "#"
+
+            for (var i = 0; i < 6; i++){
+                color += letters[Math.floor(Math.random()* 16)];
+           }
+           return color;
+        }
+
+
+            function texturaAdd(){
+                var width = Math.random() * 200;
+                var radius = Math.random() * 1;
+                if (radius > 0.5) {
+                    document.getElementById("textura").style.borderRadius = "50%";
+                } else {
+                    document.getElementById("textura").style.borderRadius = "0";
+                }
+
+                document.getElementById("textura").style.display = "block";
+                document.getElementById("textura").style.top = Math.random() * 55 + "%";
+                document.getElementById("textura").style.right = Math.random() * 55 + "%";
+                document.getElementById("textura").style.backgroundColor = changeColor();
+                document.getElementById("textura").style.width = width + "px";
+                document.getElementById("textura").style.height = width + "px";
+                timestart = new Date().getTime();
+            }
+
+
+
+            function timer(){
+                setTimeout(texturaAdd, Math.random() * 500);
+            }
+            
+            
+            var clicks = 0;
+            document.getElementById("textura").onclick = function(){
+            document.getElementById("textura").style.display = "none";
+
+            var endtime = new Date().getTime();
+            var sumtime = (endtime - timestart) / 1000;
+
+            document.getElementById("result").innerHTML = sumtime + " שניות";
+            document.getElementById("resultclick").innerHTML = clicks += 1;
+
+            var x = document.getElementById("playlion");
+            function lionplay(){
+                        x.play();
+                    }
+                if (clicks == 10) {
+                    lionplay();
+                    document.getElementById("lion").style.display = "block";
+                }
+
+            timer();
+        }
+
+
+    </script>
+
+</body>
+</html>
